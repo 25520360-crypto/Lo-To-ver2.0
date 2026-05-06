@@ -1,10 +1,10 @@
 # MiniProject-Group16-LoTo
 
 ## Thành viên trong nhóm
-*   [Tên thành viên 1] | MSSV: [MSSV 1]
-*   [Tên thành viên 2] | MSSV: [MSSV 2]
-*   [Tên thành viên 3] | MSSV: [MSSV 3]
-*   [Tên thành viên 4] | MSSV: [MSSV 4]
+*   Lê Thanh Sang | MSSV: 25521576
+*   Dương Quảng Phú | MSSV: 25521395
+*   Lê Ngọc Dũng | MSSV: 25520360
+*   Nguyễn Mạnh Quân | MSSV: 25521500
 
 ## I. Giới thiệu chung
 Dự án này là một hệ thống mô phỏng, thống kê và phân tích chiến thuật cho trò chơi dân gian phổ biến trong dịp Tết ở Việt Nam: **Lô Tô (Chuẩn bộ 16 vé Tân Tân)**.
