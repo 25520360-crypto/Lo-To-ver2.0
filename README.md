@@ -5,7 +5,6 @@
 *   [Tên thành viên 2] | MSSV: [MSSV 2]
 *   [Tên thành viên 3] | MSSV: [MSSV 3]
 *   [Tên thành viên 4] | MSSV: [MSSV 4]
-*   [Tên thành viên 5] | MSSV: [MSSV 5]
 
 ## I. Giới thiệu chung
 Dự án này là một hệ thống mô phỏng, thống kê và phân tích chiến thuật cho trò chơi dân gian phổ biến trong dịp Tết ở Việt Nam: **Lô Tô (Chuẩn bộ 16 vé Tân Tân)**.
