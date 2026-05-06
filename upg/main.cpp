@@ -40,9 +40,9 @@ int main() {
     // IN KẾT QUẢ THỐNG KÊ VÉ ĐẦU TIÊN
     int bestId = host.pickBestTicket(manager); // Dùng Host để pick
 
-    printHeader("BANG XEP HANG & VE VIP CHO QUAN TRO");
+    printHeader("BANG XEP HANG & VE VIP NHAT");
     cout << "=> KET QUA: To ve VIP nhat la #" << bestId << " (ti le ra som cao nhat)." << endl;
-    cout << "   - Host nen giu lai to #" << bestId << " de co xac suat thang chu dong." << endl;
+    cout << "   - Host nen luu y to #" << bestId << " vi no de khien song phai tra thuong nhat." << endl;
     manager.showWinStatistics(nSimulations);
 
     // PHẦN TRỌNG TÂM: PHÂN TÍCH KINH TẾ CHUNG (HOST & PLAYER)
@@ -84,15 +84,32 @@ int main() {
     if (choice == 1) {
         printHeader("DEMO VAN DAU LIVE - PHAN TICH TRUC TIEP");
 
+        int maxTickets = manager.getPool().size();
+        int guestId;
+
+        // CHO PHÉP NGƯỜI CHƠI CHỌN VÉ
+        cout << "\n[?] He thong co " << maxTickets << " to ve. Ban muon chon to nao de dau voi May tinh? (Nhap 1-" << maxTickets << "): ";
+        while (true) {
+            cin >> guestId;
+            if (guestId >= 1 && guestId <= maxTickets) break;
+            cout << "[!] ID khong hop le. Vui long nhap lai (1-" << maxTickets << "): ";
+        }
+
+        int botId = bestId;
+        // Tránh trùng vé giữa Người và Máy
+        if (botId == guestId) {
+            botId = (bestId == 1) ? 2 : 1;
+            cout << "\n[*] Vi ban da chon to VIP, May tinh se dung to #" << botId << " de thi dau!" << endl;
+        }
+
         cin.ignore();
         cout << "\nNhan Enter de bat dau boc so..."; cin.get();
 
-        LotoTicket& hostVe = manager.getTicket(bestId);
-        int guestId = (bestId == 1) ? 2 : 1;
+        LotoTicket& botVe = manager.getTicket(botId);
         LotoTicket& guestVe = manager.getTicket(guestId);
 
-        cout << "\n[Host] Giu ve VIP: #" << hostVe.getId() << endl;
-        cout << "[Ban]  Giu ve: #" << guestVe.getId() << endl;
+        cout << "\n[Nguoi choi 2] Giu ve : #" << botVe.getId() << " (May tinh chon)" << endl;
+        cout << "[Ban]          Giu ve : #" << guestVe.getId() << endl;
 
         vector<int> longCau;
         for(int i=1; i<=90; i++) longCau.push_back(i);
@@ -102,7 +119,7 @@ int main() {
         mt19937 g(rd());
         shuffle(longCau.begin(), longCau.end(), g);
 
-        hostVe.reset(); guestVe.reset();
+        botVe.reset(); guestVe.reset();
         bool finish = false; int turn = 0;
 
         while(!finish && turn < 90) {
@@ -110,23 +127,23 @@ int main() {
             cout << "\n------------------------------------------" << endl;
             cout << "LUOT " << turn << " -> [ CON SO " << soRa << " ]" << endl;
 
-            bool hTrung = hostVe.checkNumber(soRa);
+            bool bTrung = botVe.checkNumber(soRa);
             bool gTrung = guestVe.checkNumber(soRa);
 
-            if(hTrung) { cout << "[!] Host trung so " << soRa << endl; hostVe.hienThi(); }
+            if(bTrung) { cout << "[!] Nguoi choi 2 trung so " << soRa << endl; botVe.hienThi(); }
             if(gTrung) { cout << "[*] Ban trung so " << soRa << endl; guestVe.hienThi(); }
 
-            if (!hostVe.kiemTraKinh() && hostVe.soSoConThieuDeKinh() == 1) cout << ">>> CANH BAO: Host chi con thieu 1 so!" << endl;
+            if (!botVe.kiemTraKinh() && botVe.soSoConThieuDeKinh() == 1) cout << ">>> CANH BAO: Nguoi choi 2 chi con thieu 1 so!" << endl;
             if (!guestVe.kiemTraKinh() && guestVe.soSoConThieuDeKinh() == 1) cout << ">>> TIN VUI: Ban chi con thieu 1 so!" << endl;
 
-            if(hostVe.kiemTraKinh() || guestVe.kiemTraKinh()) {
+            if(botVe.kiemTraKinh() || guestVe.kiemTraKinh()) {
                 cout << "\n==========================================" << endl;
-                if(hostVe.kiemTraKinh()) cout << "   QUAN TRO (HOST) DA KINH ROI! (VIP #" << hostVe.getId() << ")" << endl;
-                if(guestVe.kiemTraKinh()) cout << "   NGUOI CHOI DA KINH ROI! (Ve #" << guestVe.getId() << ")" << endl;
+                if(botVe.kiemTraKinh()) cout << "   NGUOI CHOI 2 DA KINH ROI! (Ve #" << botVe.getId() << ")" << endl;
+                if(guestVe.kiemTraKinh()) cout << "   BAN DA KINH ROI! (Ve #" << guestVe.getId() << ")" << endl;
                 cout << "==========================================" << endl;
                 finish = true;
             } else {
-                if(hTrung || gTrung) {
+                if(bTrung || gTrung) {
                     cout << "Nhan Enter de tiep tuc..."; cin.get();
                 }
             }
