@@ -19,12 +19,12 @@ Dự án không chỉ nhằm mục đích tạo ra một trò chơi giải trí,
 *   Mô phỏng siêu tốc hàng trăm ngàn ván đấu chỉ trong vài giây để lấy mẫu thống kê độ chính xác cao.
 
 ### 2. Phân tích chiến lược Nhà Cái (Host)
-*   **Tính toán House Edge:** Dựa vào giá vé và giải thưởng, hệ thống tự động phân tích tỉ suất lợi nhuận của nhà cái.
-*   **Cảnh báo rủi ro:** Đưa ra lời khuyên nếu giải thưởng quá cao (nguy cơ lỗ) hoặc quá thấp (nguy cơ mất khách).
-*   **Định vị Vé VIP:** Phân tích dữ liệu mô phỏng để chỉ ra tờ vé có xác suất "Kinh" (thắng) sớm nhất, giúp nhà cái tối ưu hóa chiến thuật (giữ vé lại hoặc đưa cho người nhà).
+*   **Tính toán House Edge:** Dựa vào giá vé và giải thưởng, hệ thống tự động phân tích tỉ suất lợi nhuận của nhà cái theo công thức `Edge(%) = (16×giá_vé − giải_thưởng) / (16×giá_vé) × 100`.
+*   **Cảnh báo rủi ro:** Đưa ra lời khuyên nếu giải thưởng quá cao (edge âm — nguy cơ lỗ) hoặc lợi nhuận quá lớn (edge > 20% — nguy cơ mất khách).
+*   **Xác định Vé rủi ro cao nhất:** Phân tích dữ liệu mô phỏng để chỉ ra tờ vé có xác suất "Kính" (thắng) sớm nhất — đây là tờ vé nhà cái cần lưu ý vì nó dễ dẫn đến phải chi trả giải thưởng nhất. Trong chế độ Demo, máy tính sẽ dùng tờ vé này để thi đấu.
 
 ### 3. Phân tích chiến lược Người Chơi (Player)
-*   **Tính toán Expected Value (EV):** Đánh giá chính xác kỳ vọng lợi nhuận thuần dựa trên xác suất thắng và chi phí vốn.
+*   **Tính toán Expected Value (EV):** Đánh giá chính xác kỳ vọng lợi nhuận thuần dựa trên xác suất thắng và chi phí vốn theo công thức `EV = p × giải_thưởng − giá_vé`.
 *   **Thuật toán Greedy (Tham Lam):** Tự động tìm ra bộ combo N tờ vé tối ưu nhất (độ phủ số rộng nhất, ít trùng lặp nhất) để tối đa hóa cơ hội thắng.
 *   **Mô phỏng kiểm chứng chiến thuật (Monte Carlo):** So sánh trực quan giữa 2 chiến thuật kinh điển:
     *   *Single Play* (Chơi 1 ván).
@@ -32,7 +32,7 @@ Dự án không chỉ nhằm mục đích tạo ra một trò chơi giải trí,
     Hệ thống sẽ chạy thử với 100,000 người chơi ảo để chứng minh Toán học không bao giờ nói dối (Hit and Run sẽ làm người chơi lỗ nặng hơn khi EV âm).
 
 ### 4. Chế độ Demo Live (Tương tác trực tiếp)
-*   Cho phép người chơi tự chọn 1 tờ vé bất kỳ để đối đầu trực tiếp 1v1 với Máy tính (được trang bị tờ vé VIP nhất).
+*   Cho phép người chơi tự chọn 1 tờ vé bất kỳ(nhập ID từ 1–16) để đối đầu trực tiếp 1v1 với Máy tính (được trang bị tờ vé VIP nhất).
 *   Hiển thị quá trình bốc số từng lượt một cách hồi hộp, chân thực như đang chơi ngoài đời.
 *   Tính năng cảnh báo thông minh: Thông báo ngay lập tức khi Người chơi hoặc Máy tính chỉ còn thiếu đúng 1 số nữa là "Kinh".
 
@@ -40,7 +40,7 @@ Dự án không chỉ nhằm mục đích tạo ra một trò chơi giải trí,
 Dự án được thiết kế chặt chẽ theo mô hình Hướng Đối Tượng (Object-Oriented Programming):
 *   `LotoTicket.cpp/.h`: Khai báo và quản lý thực thể Tờ Vé. Xử lý logic đánh dấu số, kiểm tra chiến thắng (Kinh), đếm số còn thiếu và in vé ra màn hình.
 *   `TicketManager.cpp/.h`: Trung tâm dữ liệu. Khởi tạo pool 16 tờ vé, chịu trách nhiệm quay số, quản lý vòng đời mô phỏng và thu thập số liệu thống kê.
-*   `Host.cpp/.h`: Xử lý logic và chiến thuật của Nhà cái (Tính House Edge, chọn vé VIP).
+*   `Host.cpp/.h`: Xử lý logic và chiến thuật của Nhà cái (Tính House Edge, xác định tờ vé rủi ro cao nhất).
 *   `Player.cpp/.h`: Xử lý logic và chiến thuật của Người chơi (Tính EV, Thuật toán Greedy tìm bộ vé, chạy mô phỏng chiến thuật Hit & Run).
 *   `main.cpp`: Khung xương điều hướng chương trình, thiết lập vòng lặp giao diện người dùng và vận hành chế độ Demo Live.
 
