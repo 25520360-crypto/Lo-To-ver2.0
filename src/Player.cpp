@@ -83,7 +83,7 @@ void Player::findBestSet(const TicketManager& manager, int soLuongVe, long giaVe
 
     long costPerGame = soLuongVe * giaVe;
 
-    // ======= MÔ PHỎNG RIÊNG pWinSet ĐÚNG =======
+    // ======= MÔ PHỎNG pWinSet ĐÚNG THEO 16 VÉ =======
     int setWinCount = 0;
     std::vector<int> longCau;
     for (int i = 1; i <= 90; ++i) longCau.push_back(i);
@@ -91,27 +91,39 @@ void Player::findBestSet(const TicketManager& manager, int soLuongVe, long giaVe
     std::random_device rd;
     std::mt19937 rng(rd());
 
-    std::vector<LotoTicket> simTickets;
-    for (int idx : selectedTickets) {
-        simTickets.push_back(pool[idx]); // copy vé
-    }
+    // Lấy tất cả 16 vé để mô phỏng trận thật
+    std::vector<LotoTicket> simAllTickets = pool;
 
     for (int g = 0; g < totalGamesSimulation; ++g) {
-        for (auto& ve : simTickets) ve.reset();
+        for (auto& ve : simAllTickets) ve.reset();
         std::shuffle(longCau.begin(), longCau.end(), rng);
 
+        bool finished = false;
         bool setWon = false;
-        for (int so : longCau) {
-            for (auto& ve : simTickets) ve.checkNumber(so);
 
-            for (auto& ve : simTickets) {
-                if (ve.kiemTraKinh()) {
-                    setWon = true;
+        for (int so : longCau) {
+            for (auto& ve : simAllTickets) ve.checkNumber(so);
+
+            // Kiểm tra vé nào Kinh trước (và xem có nằm trong bộ mình chọn không)
+            for (size_t i = 0; i < simAllTickets.size(); ++i) {
+                if (simAllTickets[i].kiemTraKinh()) {
+                    finished = true;
+
+                    // Nếu 1 trong các vé thắng thuộc bộ mình chọn => set thắng
+                    int ticketId = simAllTickets[i].getId();
+                    for (int idx : selectedTickets) {
+                        if (pool[idx].getId() == ticketId) {
+                            setWon = true;
+                            break;
+                        }
+                    }
                     break;
                 }
             }
-            if (setWon) break;
+
+            if (finished) break;
         }
+
         if (setWon) setWinCount++;
     }
 
