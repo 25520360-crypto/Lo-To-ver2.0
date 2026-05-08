@@ -81,8 +81,41 @@ void Player::findBestSet(const TicketManager& manager, int soLuongVe, long giaVe
     }
     std::cout << "\nTong do phu: " << coveredNumbers.size() << "/90 so." << std::endl;
 
-    double pWinSet = (double)totalWinCountOfSet / totalGamesSimulation;
     long costPerGame = soLuongVe * giaVe;
+
+    // ======= MÔ PHỎNG RIÊNG pWinSet ĐÚNG =======
+    int setWinCount = 0;
+    std::vector<int> longCau;
+    for (int i = 1; i <= 90; ++i) longCau.push_back(i);
+
+    std::random_device rd;
+    std::mt19937 rng(rd());
+
+    std::vector<LotoTicket> simTickets;
+    for (int idx : selectedTickets) {
+        simTickets.push_back(pool[idx]); // copy vé
+    }
+
+    for (int g = 0; g < totalGamesSimulation; ++g) {
+        for (auto& ve : simTickets) ve.reset();
+        std::shuffle(longCau.begin(), longCau.end(), rng);
+
+        bool setWon = false;
+        for (int so : longCau) {
+            for (auto& ve : simTickets) ve.checkNumber(so);
+
+            for (auto& ve : simTickets) {
+                if (ve.kiemTraKinh()) {
+                    setWon = true;
+                    break;
+                }
+            }
+            if (setWon) break;
+        }
+        if (setWon) setWinCount++;
+    }
+
+    double pWinSet = (double)setWinCount / totalGamesSimulation;
     double expectedValue = (pWinSet * giaiThuong) - costPerGame;
 
     std::cout << "---------------------------------" << std::endl;
