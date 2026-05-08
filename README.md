@@ -13,7 +13,7 @@ Dự án không chỉ nhằm mục đích tạo ra một trò chơi giải trí,
 
 ## II. Tính năng nổi bật
 
-### 1. Trải nghiệm Lô Tô Thực Tế (Mới)
+### 1. Trải nghiệm Lô Tô Thực Tế
 *   **Chế độ xem 1 ván bình thường:** Mô phỏng chân thực một ván loto với toàn bộ 16 tờ vé tham gia.
 *   **Bốc từng số:** Hệ thống bốc từng số ngẫu nhiên, tự động rà soát 16 vé và in chi tiết tờ vé ra màn hình nếu có vé trúng số đó.
 *   **Cảnh báo & Dừng:** Tự động cảnh báo khi có vé "chờ Kinh" (chỉ còn thiếu 1 số) và kết thúc ván ngay lập tức khi phát hiện vé đã "Kinh".
