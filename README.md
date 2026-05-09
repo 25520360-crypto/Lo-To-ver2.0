@@ -49,4 +49,4 @@ Dự án được thiết kế chặt chẽ theo mô hình Hướng Đối Tư�
 *   `main.cpp`: Khung xương điều hướng chương trình (Menu Chính), thiết lập vòng lặp giao diện người dùng và vận hành các chế độ Demo.
 
 ---
-*Slide thuyết trình: https://www.canva.com/design/DAHIwGmtpZM/miCx2GbDZJyjnotS2RBMaA/edit*
+*Slide thuyết trình: https://canva.link/0y4t39xybf50nij*
